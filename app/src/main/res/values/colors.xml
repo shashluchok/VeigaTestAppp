@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="bg_default">#313841</color>
+    <color name="app_white">#FFFFFF</color>
+    <color name="app_light_blue">#00A3FE</color>
+    <color name="app_blue_pressed">#2685BA</color>
+    <color name="gradient_end">#0013DE</color>
+    <color name="gradient_center">#007AFF</color>
+    <color name="bg_lottie">#D9D9D9</color>
+    <color name="pop_up_overlay">#BF1D1D1D</color>
+    <color name="app_light_gray">#D9D9D9</color>
+
+    <color name="app_blue">#055AFF</color>
+    <color name="app_pink">#D900D0</color>
+    <color name="app_light_pink">#50D900D0</color>
+    <color name="app_new_pink">#FF009A</color>
+    <color name="app_light_new_pink">#50FF009A</color>
+    <color name="app_purple">#9E00FF</color>
+    <color name="app_light_purple">#509E00FF</color>
+    <color name="app_black">#242424</color>
+    <color name="gradient_start_second">#FF8C4B</color>
+    <color name="gradient_end_second">#F54D64</color>
+</resources>

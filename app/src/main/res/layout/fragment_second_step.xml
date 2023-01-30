@@ -1,0 +1,307 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nestedScrollView"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_default"
+    android:clipToPadding="false"
+    android:paddingBottom="64dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/backIv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="14dp"
+            android:src="@drawable/back"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/loaderFirstTitleTv"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="14dp"
+            android:layout_marginTop="45dp"
+            android:fontFamily="@font/roboto_regular"
+            android:text="@string/random_value"
+            android:textColor="@color/app_white"
+            android:textSize="@dimen/default_16sp"
+            app:layout_constraintEnd_toStartOf="@+id/loaderFirstProgressTv"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/loaderFirstProgressTv"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="45dp"
+            android:layout_marginEnd="14dp"
+            android:fontFamily="@font/roboto_regular"
+            android:gravity="end"
+            android:text="@string/percentage_count"
+            android:textColor="@color/app_white"
+            android:textSize="@dimen/default_16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/loaderFirstTitleTv"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <ru.armensarkisyan.veigatestapp.common.ui.custom_views.CustomLoader
+            android:id="@+id/customLoaderFirst"
+            android:layout_width="0dp"
+            android:layout_height="10dp"
+            android:layout_marginStart="14dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginEnd="14dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/loaderFirstTitleTv"
+            app:setType="secondStep" />
+
+
+        <TextView
+            android:id="@+id/loaderSecondTitleTv"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="14dp"
+            android:layout_marginTop="16dp"
+            android:fontFamily="@font/roboto_regular"
+            android:text="@string/random_value"
+            android:textColor="@color/app_white"
+            android:textSize="@dimen/default_16sp"
+            app:layout_constraintEnd_toStartOf="@+id/loaderSecondProgressTv"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/customLoaderFirst" />
+
+        <TextView
+            android:id="@+id/loaderSecondProgressTv"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="14dp"
+            android:fontFamily="@font/roboto_regular"
+            android:gravity="end"
+            android:text="@string/percentage_count"
+            android:textColor="@color/app_white"
+            android:textSize="@dimen/default_16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/loaderSecondTitleTv"
+            app:layout_constraintTop_toTopOf="@+id/loaderSecondTitleTv" />
+
+
+        <ru.armensarkisyan.veigatestapp.common.ui.custom_views.CustomLoader
+            android:id="@+id/customLoaderSecond"
+            android:layout_width="0dp"
+            android:layout_height="10dp"
+            android:layout_marginStart="14dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginEnd="14dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/loaderSecondTitleTv"
+            app:setType="secondStep" />
+
+        <TextView
+            android:id="@+id/randomizeValues"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="28dp"
+            android:layout_marginEnd="16dp"
+            android:background="@drawable/bg_blue_button_states"
+            android:clickable="true"
+            android:focusable="true"
+            android:fontFamily="@font/roboto_medium"
+            android:gravity="center"
+            android:padding="12dp"
+            android:text="@string/randomize_values"
+            android:textColor="@color/app_white"
+            android:textSize="@dimen/default_17sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/customLoaderSecond" />
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/timerHoursCv"
+            android:layout_width="70dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:layout_marginEnd="8dp"
+            app:cardBackgroundColor="@color/app_black"
+            app:cardCornerRadius="12dp"
+            app:layout_constraintEnd_toStartOf="@+id/timerMinutesCv"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/randomizeValues">
+
+            <TextView
+                android:id="@+id/timerHoursTv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_medium"
+                android:padding="16dp"
+                android:text="14"
+                android:textColor="@color/app_white"
+                android:textSize="32sp" />
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/timerMinutesCv"
+            android:layout_width="70dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:layout_marginEnd="8dp"
+            app:cardBackgroundColor="@color/app_black"
+            app:cardCornerRadius="12dp"
+            app:layout_constraintEnd_toStartOf="@+id/timerSecondsCv"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/timerHoursCv"
+            app:layout_constraintTop_toBottomOf="@+id/randomizeValues">
+
+            <TextView
+                android:id="@+id/timerMinutesTv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_medium"
+                android:padding="16dp"
+                android:text="14"
+                android:textColor="@color/app_white"
+                android:textSize="32sp" />
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/timerSecondsCv"
+            android:layout_width="70dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            app:cardBackgroundColor="@color/app_black"
+            app:cardCornerRadius="12dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/timerMinutesCv"
+            app:layout_constraintTop_toBottomOf="@+id/randomizeValues">
+
+            <TextView
+                android:id="@+id/timerSecondsTv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_medium"
+                android:padding="16dp"
+                android:text="14"
+                android:textColor="@color/app_white"
+                android:textSize="32sp" />
+        </androidx.cardview.widget.CardView>
+
+        <TextView
+            android:id="@+id/timerHoursTitleTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:fontFamily="@font/roboto_medium"
+            android:text="@string/hours"
+            android:textColor="@color/app_white"
+            android:textSize="@dimen/default_16sp"
+            app:layout_constraintEnd_toEndOf="@+id/timerHoursCv"
+            app:layout_constraintStart_toStartOf="@+id/timerHoursCv"
+            app:layout_constraintTop_toBottomOf="@+id/timerHoursCv" />
+
+        <TextView
+            android:id="@+id/timerMinutesTitleTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:fontFamily="@font/roboto_medium"
+            android:text="@string/minutes"
+            android:textColor="@color/app_white"
+            android:textSize="@dimen/default_16sp"
+            app:layout_constraintEnd_toEndOf="@+id/timerMinutesCv"
+            app:layout_constraintStart_toStartOf="@+id/timerMinutesCv"
+            app:layout_constraintTop_toBottomOf="@+id/timerMinutesCv" />
+
+        <TextView
+            android:id="@+id/timerSecondsTitleTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:fontFamily="@font/roboto_medium"
+            android:text="@string/seconds"
+            android:textColor="@color/app_white"
+            android:textSize="@dimen/default_16sp"
+            app:layout_constraintEnd_toEndOf="@+id/timerSecondsCv"
+            app:layout_constraintStart_toStartOf="@+id/timerSecondsCv"
+            app:layout_constraintTop_toBottomOf="@+id/timerSecondsCv" />
+
+
+        <TextView
+            android:id="@+id/loaderRatingsTitleTv"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="14dp"
+            android:layout_marginTop="25dp"
+            android:fontFamily="@font/roboto_regular"
+            android:text="@string/load_data_from_server"
+            android:textColor="@color/app_white"
+            android:textSize="@dimen/default_16sp"
+            app:layout_constraintEnd_toStartOf="@+id/loaderFirstProgressTv"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/timerHoursTitleTv" />
+
+        <TextView
+            android:id="@+id/loaderRatingsProgressTv"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="14dp"
+            android:fontFamily="@font/roboto_regular"
+            android:gravity="end"
+            android:text="@string/percentage_count"
+            android:textColor="@color/app_white"
+            android:textSize="@dimen/default_16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/loaderRatingsTitleTv"
+            app:layout_constraintTop_toTopOf="@+id/loaderRatingsTitleTv" />
+
+
+        <ru.armensarkisyan.veigatestapp.common.ui.custom_views.CustomLoader
+            android:id="@+id/customLoaderRatings"
+            android:layout_width="0dp"
+            android:layout_height="20dp"
+            android:layout_marginStart="14dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginEnd="14dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/loaderRatingsTitleTv"
+            app:setType="ratings" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/ratingsRv"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:clipToPadding="false"
+            android:orientation="horizontal"
+            android:overScrollMode="never"
+            android:paddingEnd="16dp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/customLoaderRatings"
+            tools:itemCount="5"
+            tools:listitem="@layout/item_rating" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.core.widget.NestedScrollView>

@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/popUpAlertMainCl"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/pop_up_overlay">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/popUpAlertContentCl"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="28dp"
+        android:layout_marginEnd="28dp"
+        android:background="@drawable/bg_pop_up"
+        android:clickable="true"
+        android:focusable="true"
+        android:paddingBottom="21dp"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/checkMarkIv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_check_mark"
+            android:layout_marginTop="15dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <TextView
+            android:id="@+id/popUpAlertMainHeaderTv"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="14dp"
+            android:layout_marginEnd="14dp"
+            android:fontFamily="@font/roboto_regular"
+            android:gravity="center"
+            android:layout_marginTop="12dp"
+            android:text="@string/custom_alert"
+            android:textColor="@color/bg_default"
+            android:textSize="@dimen/default_20sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/checkMarkIv" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/popUpAlertStepsCl"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/popUpAlertCloseTv"
+            app:layout_constraintTop_toBottomOf="@id/popUpAlertMainHeaderTv">
+
+            <View
+                android:id="@+id/popUpAlertStepsLineView"
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:background="@color/bg_default"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/fourthStepCv"
+                app:layout_constraintStart_toStartOf="@+id/firstStepCv"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/firstStepCv"
+                android:layout_width="12dp"
+                android:layout_height="12dp"
+                android:layout_gravity="center"
+                app:cardBackgroundColor="@color/app_blue"
+                app:cardCornerRadius="6dp"
+                app:cardElevation="1dp"
+                app:layout_constraintBottom_toBottomOf="@+id/firstStepFl"
+                app:layout_constraintEnd_toEndOf="@+id/firstStepFl"
+                app:layout_constraintStart_toStartOf="@+id/firstStepFl"
+                app:layout_constraintTop_toTopOf="@+id/firstStepFl" />
+
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/secondStepCv"
+                android:layout_width="12dp"
+                android:layout_height="12dp"
+                android:layout_gravity="center"
+                app:cardBackgroundColor="@color/app_pink"
+                app:cardCornerRadius="6dp"
+                app:cardElevation="1dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/secondStepFl"
+                app:layout_constraintStart_toStartOf="@+id/secondStepFl"
+                app:layout_constraintTop_toTopOf="@+id/secondStepFl"
+                app:strokeColor="@color/app_white"
+                app:strokeWidth="1dp" />
+
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/thirdStepCv"
+                android:layout_width="12dp"
+                android:layout_height="12dp"
+                android:layout_gravity="center"
+                app:cardBackgroundColor="@color/app_white"
+                app:cardCornerRadius="6dp"
+                app:cardElevation="1dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/thirdStepFl"
+                app:layout_constraintStart_toStartOf="@+id/thirdStepFl"
+                app:layout_constraintTop_toTopOf="@+id/thirdStepFl"
+                app:strokeColor="@color/app_new_pink"
+                app:strokeWidth="1dp" />
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/fourthStepCv"
+                android:layout_width="12dp"
+                android:layout_height="12dp"
+                android:layout_gravity="center"
+                app:cardBackgroundColor="@color/app_white"
+                app:cardCornerRadius="6dp"
+                app:layout_constraintBottom_toBottomOf="@+id/fourthStepFl"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/thirdStepFl"
+                app:layout_constraintTop_toTopOf="parent"
+                app:strokeColor="@color/app_purple"
+                app:strokeWidth="1dp" />
+
+            <View
+                android:id="@+id/thirdStepFl"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:background="@drawable/gradient_radial_light_pink"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/fourthStepFl"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/secondStepFl"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <View
+                android:id="@+id/fourthStepFl"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:background="@drawable/gradient_radial_purple"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/thirdStepFl"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <View
+                android:id="@+id/secondStepFl"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:background="@drawable/gradient_radial_pink"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/thirdStepFl"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/firstStepFl"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <View
+                android:id="@+id/firstStepFl"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/secondStepFl"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"/>
+
+            <TextView
+                android:id="@+id/firstStepTitleTv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:focusable="true"
+                android:layout_marginTop="5dp"
+                android:fontFamily="@font/roboto_regular"
+                android:gravity="center"
+                android:text="@string/first"
+                android:textColor="@color/bg_default"
+                android:textSize="@dimen/default_10sp"
+                android:visibility="visible"
+                app:layout_constraintEnd_toStartOf="@+id/secondStepFl"
+                app:layout_constraintStart_toStartOf="@+id/firstStepFl"
+                app:layout_constraintTop_toBottomOf="@+id/firstStepCv" />
+
+            <TextView
+                android:id="@+id/secondStepTitleTv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:focusable="true"
+                android:layout_marginTop="5dp"
+                android:fontFamily="@font/roboto_regular"
+                android:gravity="center"
+                android:text="@string/second"
+                android:textColor="@color/app_pink"
+                android:textSize="@dimen/default_10sp"
+                android:visibility="visible"
+                app:layout_constraintEnd_toStartOf="@+id/thirdStepFl"
+                app:layout_constraintStart_toStartOf="@+id/secondStepFl"
+                app:layout_constraintTop_toBottomOf="@+id/secondStepCv" />
+
+            <TextView
+                android:id="@+id/thirdStepTitleTv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:focusable="true"
+                android:fontFamily="@font/roboto_regular"
+                android:gravity="center"
+                android:layout_marginTop="5dp"
+                android:text="@string/third"
+                android:textColor="@color/bg_default"
+                android:textSize="@dimen/default_10sp"
+                android:visibility="visible"
+                app:layout_constraintEnd_toEndOf="@+id/thirdStepFl"
+                app:layout_constraintStart_toStartOf="@+id/thirdStepFl"
+                app:layout_constraintTop_toBottomOf="@+id/thirdStepCv" />
+
+            <TextView
+                android:id="@+id/fourthStepTitleTv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:focusable="true"
+                android:layout_marginTop="5dp"
+                android:fontFamily="@font/roboto_regular"
+                android:gravity="center"
+                android:text="@string/fourth"
+                android:textColor="@color/bg_default"
+                android:textSize="@dimen/default_10sp"
+                android:visibility="visible"
+                app:layout_constraintEnd_toEndOf="@+id/fourthStepFl"
+                app:layout_constraintStart_toStartOf="@+id/fourthStepFl"
+                app:layout_constraintTop_toBottomOf="@+id/fourthStepCv" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <TextView
+            android:id="@+id/popUpAlertCloseTv"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_blue_button_states"
+            android:clickable="true"
+            android:focusable="true"
+            android:layout_marginTop="40dp"
+            android:layout_marginStart="77dp"
+            android:layout_marginEnd="77dp"
+            android:fontFamily="@font/roboto_regular"
+            android:gravity="center"
+            android:text="@string/close"
+            android:padding="11dp"
+            android:textColor="@color/app_white"
+            android:textSize="@dimen/default_14sp"
+            android:visibility="visible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/popUpAlertStepsCl" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+

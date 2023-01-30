@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="CustomLoader">
+        <attr name="setType" format="flags">
+            <flag name="firstStep" value="01"/>
+            <flag name="secondStep" value="02"/>
+            <flag name="ratings" value="03"/>
+        </attr>
+    </declare-styleable>
+
+</resources>
