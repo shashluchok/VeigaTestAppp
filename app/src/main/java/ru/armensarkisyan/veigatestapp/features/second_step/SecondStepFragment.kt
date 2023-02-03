@@ -15,76 +15,68 @@ import kotlinx.coroutines.*
 import org.koin.android.ext.android.inject
 import ru.armensarkisyan.veigatestapp.R
 import ru.armensarkisyan.veigatestapp.common.data.net.responses.Raiting
+import ru.armensarkisyan.veigatestapp.common.secondsToHoursMinutesSeconds
 import ru.armensarkisyan.veigatestapp.common.ui.base.BaseFragment
 import ru.armensarkisyan.veigatestapp.common.ui.custom_views.CustomLoader
 import ru.armensarkisyan.veigatestapp.databinding.FragmentSecondStepBinding
 import ru.armensarkisyan.veigatestapp.features.second_step.adapters.RatingAdapter
-import kotlin.random.Random
 
 class SecondStepFragment : BaseFragment<FragmentSecondStepBinding>() {
 
     private val viewModel by inject<SecondStepViewModel>()
 
-    private var downloadingJob: Job? = null
-    private var timerJob: Job? = null
-
-    private var isPaused = false
+    private companion object {
+        const val LOADER_INITIAL_PROGRESS_PERCENTAGE = 0
+        const val INITIAL_TIMER_DURATION_SECONDS = 3600
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         viewModel.clearState()
 
         binding?.apply {
-            setProgressToLoader(0, loaderRatingsProgressTv, customLoaderRatings)
+            setProgressToLoader(
+                LOADER_INITIAL_PROGRESS_PERCENTAGE,
+                loaderRatingsProgressTv,
+                customLoaderRatings
+            )
 
-            var job: Job? = lifecycleScope.launch(Dispatchers.IO) {
-                delay(1000)
-                viewModel.getRatings()
-                val seconds = 7
-                var currentSecond = 0
-                while (isActive)
-                    if (!isPaused) {
-                        if (currentSecond >= seconds - 1) {
-                            cancel()
-                        } else currentSecond += 1
-                        val percentage = (100f / seconds * currentSecond).toInt()
-                        withContext(Dispatchers.Main) {
-                            val mPercentage = if (percentage in 0..100) percentage else 100
-                            setProgressToLoader(
-                                mPercentage,
-                                loaderRatingsProgressTv,
-                                customLoaderRatings
-                            )
-                        }
-                        delay(1000)
-
-                    }
-
-            }
+            viewModel.getRatings()
 
             viewModel.state.observe(viewLifecycleOwner) {
                 when (it) {
                     is SecondStepStates.DataLoadedState -> {
-                        job?.cancel()
-                        job = null
-                        setProgressToLoader(100, loaderRatingsProgressTv, customLoaderRatings)
                         setUpRatingList(it.ratings.map { it.value })
                     }
                     SecondStepStates.ErrorState -> {
-                        job?.cancel()
-                        job = null
-                        setProgressToLoader(0, loaderRatingsProgressTv, customLoaderRatings)
+                        setProgressToLoader(LOADER_INITIAL_PROGRESS_PERCENTAGE, loaderRatingsProgressTv, customLoaderRatings)
                         Toast.makeText(
                             requireContext(),
                             getString(R.string.error_network),
                             Toast.LENGTH_SHORT
                         ).show()
                     }
+                    is SecondStepStates.LoadingProgressState -> {
+                        val (customLoaderView, loaderPercentView) = when (it.loaderType) {
+                            SecondStepLoaderTypes.FIRST -> {
+                                Pair(customLoaderFirst, loaderFirstProgressTv)
+                            }
+                            SecondStepLoaderTypes.SECOND -> {
+                                Pair(customLoaderSecond, loaderSecondProgressTv)
+                            }
+                            SecondStepLoaderTypes.RATINGS -> {
+                                Pair(customLoaderRatings, loaderRatingsProgressTv)
+                            }
+                        }
+                        setProgressToLoader(it.percentage, loaderPercentView, customLoaderView)
+                    }
+                    is SecondStepStates.TimerTickState -> {
+                        setTimeToTimer(remainingTimeInSeconds = it.remainingSecondsAmount)
+                    }
                 }
             }
 
-            reInitDownloaders()
+            reInitLoaders()
             startTimer()
             randomizeValues.setOnClickListener {
                 startMockedDownloading()
@@ -97,12 +89,12 @@ class SecondStepFragment : BaseFragment<FragmentSecondStepBinding>() {
 
     override fun onPause() {
         super.onPause()
-        isPaused = true
+        viewModel.setLoadingState(SecondStepViewModel.LoadingStates.PAUSED)
     }
 
     override fun onResume() {
         super.onResume()
-        isPaused = false
+        viewModel.setLoadingState(SecondStepViewModel.LoadingStates.RESUMED)
     }
 
     private fun setUpRatingList(ratings: List<Raiting>) {
@@ -114,10 +106,18 @@ class SecondStepFragment : BaseFragment<FragmentSecondStepBinding>() {
         }
     }
 
-    private fun reInitDownloaders() {
+    private fun reInitLoaders() {
         binding?.apply {
-            setProgressToLoader(0, loaderFirstProgressTv, customLoaderFirst)
-            setProgressToLoader(0, loaderSecondProgressTv, customLoaderSecond)
+            setProgressToLoader(
+                LOADER_INITIAL_PROGRESS_PERCENTAGE,
+                loaderFirstProgressTv,
+                customLoaderFirst
+            )
+            setProgressToLoader(
+                LOADER_INITIAL_PROGRESS_PERCENTAGE,
+                loaderSecondProgressTv,
+                customLoaderSecond
+            )
         }
     }
 
@@ -134,84 +134,26 @@ class SecondStepFragment : BaseFragment<FragmentSecondStepBinding>() {
     }
 
     private fun startTimer() {
-        setTimeToTimer(null)
-        var seconds = 60 * 60
-        timerJob = lifecycleScope.launch(Dispatchers.Main) {
-            delay(1000)
-            repeat(seconds) {
-                if (seconds == 0) {
-                    stopTimer()
-                } else {
-                    seconds--
-                    setTimeToTimer(seconds)
-                }
-                delay(1000)
-            }
-        }
+        setTimeToTimer(INITIAL_TIMER_DURATION_SECONDS)
+        viewModel.startTimer()
     }
 
-    private fun setTimeToTimer(seconds: Int?) {
+
+    private fun setTimeToTimer(remainingTimeInSeconds: Int) {
         binding?.apply {
-            if (seconds == null) {
-                timerHoursTv.text = "01"
-                timerMinutesTv.text = "00"
-                timerSecondsTv.text = "00"
-            } else {
-                val hours = (seconds / 3600).toString()
-                val minutes = (seconds / 60).toString()
-                val mSeconds = (seconds % 60).toString()
-                timerHoursTv.text = if (hours.length < 2) "0$hours" else hours
-                timerMinutesTv.text = if (minutes.length < 2) "0$minutes" else minutes
-                timerSecondsTv.text = if (mSeconds.length < 2) "0$mSeconds" else mSeconds
-            }
+            val (hours, minutes, seconds) = remainingTimeInSeconds.secondsToHoursMinutesSeconds()
+            timerHoursTv.text = hours
+            timerMinutesTv.text = minutes
+            timerSecondsTv.text = seconds
         }
     }
 
-    private fun stopTimer() {
-        timerJob?.cancel()
-        timerJob?.cancelChildren()
-    }
+
 
     private fun startMockedDownloading() {
         binding?.apply {
-            reInitDownloaders()
-            downloadingJob?.cancelChildren()
-            downloadingJob?.cancel()
-            downloadingJob = lifecycleScope.launch(Dispatchers.IO) {
-                delay(1000)
-                launch {
-                    startRandomDownloading(loaderFirstProgressTv, customLoaderFirst)
-
-                }
-                delay(Random.nextInt(0, 500).toLong())
-                launch {
-                    startRandomDownloading(loaderSecondProgressTv, customLoaderSecond)
-                }
-            }
-        }
-    }
-
-    private suspend fun startRandomDownloading(
-        progressPercentageView: TextView,
-        progressLoaderView: CustomLoader
-    ) {
-        withContext(Dispatchers.IO) {
-            val seconds = Random.nextInt(5, 25)
-            var currentSecond = 0
-            while (isActive)
-                if (!isPaused) {
-                    if (currentSecond >= seconds) {
-                        cancel()
-                    } else currentSecond += 1
-                    val percentage = (100f / seconds * currentSecond).toInt()
-                    withContext(Dispatchers.Main) {
-                        val mPercentage = if (percentage in 0..100) percentage else 100
-                        setProgressToLoader(mPercentage, progressPercentageView, progressLoaderView)
-                    }
-                    delay(1000)
-
-                }
-
+            reInitLoaders()
+            viewModel.startMockedDownloading()
         }
     }
 

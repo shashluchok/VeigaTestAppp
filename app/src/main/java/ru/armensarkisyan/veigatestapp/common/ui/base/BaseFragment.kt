@@ -26,9 +26,8 @@ abstract class BaseFragment<T:ViewBinding> : Fragment() {
     ): View? {
 
         binding = inflateViewBinding(inflater,container)
-        val view = binding?.root
 
-        return view
+        return binding?.root
     }
 
     override fun onDestroyView() {

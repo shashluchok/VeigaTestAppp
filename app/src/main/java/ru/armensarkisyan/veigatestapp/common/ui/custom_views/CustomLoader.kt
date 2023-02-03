@@ -28,6 +28,12 @@ class CustomLoader : ConstraintLayout {
         initView()
     }
 
+    private companion object {
+        const val MAX_PERCENTAGE = 100
+        const val MIN_PERCENTAGE = 0
+        const val LOADER_ANIMATION_DURATION = 500L
+    }
+
     constructor(context: Context, attrs: AttributeSet?) : super(context, attrs) {
         currentType = when (attrs?.getAttributeValue(
             "http://schemas.android.com/apk/res-auto",
@@ -62,9 +68,8 @@ class CustomLoader : ConstraintLayout {
     fun setPercentage(percentage: Int) {
         this.currentPercentage = percentage
         binding?.apply {
-            val mPercentage = if (percentage in 0..100) percentage else 100
-            loaderConstraint.setGuidelinePercent(mPercentage / 100f)
-            animateConstraintLayout(loaderCl, ConstraintSet().also { it.clone(loaderCl) }, 500)
+            loaderConstraint.setGuidelinePercent(percentage / MAX_PERCENTAGE.toFloat())
+            animateConstraintLayout(loaderCl, ConstraintSet().also { it.clone(loaderCl) }, LOADER_ANIMATION_DURATION)
         }
     }
 
@@ -84,7 +89,7 @@ class CustomLoader : ConstraintLayout {
         binding = LayoutGradientLoaderBinding.inflate(LayoutInflater.from(context), this, false)
         binding?.apply {
             addView(root)
-            root.layoutTransition.setDuration(500)
+            root.layoutTransition.setDuration(LOADER_ANIMATION_DURATION)
             val cardBgColor: Int
             val loaderBgRes: Int
             when (currentType) {

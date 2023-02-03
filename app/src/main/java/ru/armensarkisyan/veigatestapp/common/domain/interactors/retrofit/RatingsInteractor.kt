@@ -6,10 +6,11 @@ import ru.armensarkisyan.veigatestapp.common.domain.VeigaApi
 class RatingsInteractor(
     private val api: VeigaApi,
 ) {
+
     suspend fun getRatings(): Map<String, Raiting>? {
         val request = api.getTestData().execute()
         return if (request.isSuccessful) {
-            request.body()?.raitings?.let {
+            request.body()?.ratings?.let {
                 return it
             }
         } else null

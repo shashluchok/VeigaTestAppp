@@ -4,29 +4,52 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import kotlinx.coroutines.*
+import org.koin.android.ext.android.inject
 import ru.armensarkisyan.veigatestapp.MainActivity
 import ru.armensarkisyan.veigatestapp.R
 import ru.armensarkisyan.veigatestapp.common.ui.base.BaseFragment
 import ru.armensarkisyan.veigatestapp.databinding.FragmentFirstStepBinding
 
+
 class FirstStepFragment : BaseFragment<FragmentFirstStepBinding>() {
 
-    private var isPaused = false
     private var wasLottieAnimating = false
-    private var mockedJob: Job? = null
+
+    private val viewModel by inject<FirstStepViewModel>()
+
+    private companion object {
+        const val ALPHA_VALUE_VISIBLE = 1f
+        const val ALPHA_VALUE_INVISIBLE = 0f
+        const val ALPHA_CHANGE_ANIMATION_DURATION = 200L
+        const val LOADER_INITIAL_PROGRESS_PERCENTAGE = 0
+    }
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        viewModel.clearState()
+        viewModel.state.observe(viewLifecycleOwner) {
+            when (it) {
+                is FirstStepStates.LoadingProgressState -> {
+                    binding?.apply {
+                        customLoader.setPercentage(it.percentage)
+                        loaderProgressTv.text = String.format(
+                            resources.getString(R.string.percentage_count),
+                            it.percentage
+                        )
+                    }
+                }
+            }
+        }
+
         startMockedLoading()
         setOnClickListeners()
     }
 
     override fun onPause() {
         super.onPause()
-        isPaused = true
+        viewModel.setLoadingState(FirstStepViewModel.LoadingStates.PAUSED)
         binding?.apply {
             wasLottieAnimating = lottieAnimationView.isAnimating
             lottieAnimationView.pauseAnimation()
@@ -36,11 +59,11 @@ class FirstStepFragment : BaseFragment<FragmentFirstStepBinding>() {
     override fun onResume() {
         super.onResume()
         binding?.apply {
-            if (wasLottieAnimating)
+            if (wasLottieAnimating) {
                 lottieAnimationView.resumeAnimation()
+            }
         }
-        isPaused = false
-
+        viewModel.setLoadingState(FirstStepViewModel.LoadingStates.RESUMED)
     }
 
     private fun setOnClickListeners() {
@@ -55,11 +78,20 @@ class FirstStepFragment : BaseFragment<FragmentFirstStepBinding>() {
                 (requireActivity() as? MainActivity)?.showPopupAlert()
             }
             lottieVisibilityTv.setOnClickListener {
-                if (lottieAnimationView.alpha == 1f) {
-                    lottieAnimationView.animate().alpha(0f).duration = 200
-                } else if (lottieAnimationView.alpha == 0f) {
-                    lottieAnimationView.animate().alpha(1f).duration = 200
+                val newAlpha = when (lottieAnimationView.alpha) {
+                    ALPHA_VALUE_VISIBLE -> {
+                        ALPHA_VALUE_INVISIBLE
+                    }
+                    ALPHA_VALUE_INVISIBLE -> {
+                        ALPHA_VALUE_VISIBLE
+                    }
+                    else -> {
+                        lottieAnimationView.alpha
+                    }
                 }
+                lottieAnimationView.animate().alpha(newAlpha).duration =
+                    ALPHA_CHANGE_ANIMATION_DURATION
+
             }
             secondStepTv.setOnClickListener {
                 findNavController().navigate(R.id.action_firstStepFragment_to_secondStepFragment)
@@ -68,33 +100,15 @@ class FirstStepFragment : BaseFragment<FragmentFirstStepBinding>() {
     }
 
     private fun startMockedLoading() {
-        mockedJob?.cancel()
-        binding?.customLoader?.setPercentage(0)
-        binding?.loaderProgressTv?.text =
-            String.format(resources.getString(R.string.percentage_count), 0)
-        mockedJob = lifecycleScope.launch(Dispatchers.IO) {
-            delay(1000)
-            val seconds = 14
-            var currentSecond = 0
-            while (isActive)
-
-                if (!isPaused) {
-                    if (currentSecond >= seconds) cancel()
-                    else currentSecond += 1
-                    val percentage = (100f / seconds * currentSecond).toInt()
-                    withContext(Dispatchers.Main) {
-                        val mPercentage = if (percentage in 0..100) percentage else 100
-                        binding?.customLoader?.setPercentage(mPercentage)
-                        binding?.loaderProgressTv?.setText(
-                            String.format(
-                                resources.getString(R.string.percentage_count),
-                                mPercentage
-                            )
-                        )
-                    }
-                    delay(1000)
-                }
+        binding?.apply {
+            customLoader.setPercentage(LOADER_INITIAL_PROGRESS_PERCENTAGE)
+            loaderProgressTv.text =
+                String.format(
+                    resources.getString(R.string.percentage_count),
+                    LOADER_INITIAL_PROGRESS_PERCENTAGE
+                )
         }
+        viewModel.startMockedLoading()
     }
 
     override fun inflateViewBinding(
